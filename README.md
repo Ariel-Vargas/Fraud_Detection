@@ -29,7 +29,7 @@ Para manejar este problema de desbalance y evitar que el modelo ignore la clase 
 
 ### Entrenamiento y Optimización
 
-Para lograr un modelo robusto, se utilizó el algoritmo **XGBoost Classifier**. Se realizó un **ajuste de hiperparámetros (HPO)** utilizando la librería **Optuna** para encontrar la configuración óptima, basándose en la métrica **AUC-ROC**. El modelo fue entrenado con la estrategia de peso de clase.
+Para lograr un modelo robusto, se utilizó el algoritmo **XGBoost Classifier**. Se realizó un **ajuste de hiperparámetros (HPO)** utilizando la librería **Optuna** para encontrar la configuración óptima, basándose en la métrica **AUC-ROC** debido a que nos permite clasificar el modelo si es fraude o legítima. El modelo fue entrenado con la estrategia de peso de clase, de esa manera manejamos el desbalance de clase utilizando la razón entre los números de ejempos entre las transacciones legítimas y el numero de peso entre las transacciones fraudulentas.
 
 Luego del entrenamiento, se implementó la librería **SHAP (SHapley Additive exPlanations)** para generar gráficos de explicabilidad y justificar las decisiones del modelo.
 
@@ -43,7 +43,7 @@ Se revisó la **curva de calibración** inicial. Dado que no estaba cerca de la 
       
 2.  La optimización con Optuna y el proceso de calibración resultaron en un **ROC-AUC de 0.9715**. Este valor, muy cercano a 1.0, indica que el modelo tiene una excepcional capacidad para discriminar entre las clases.
 
-3.  Este análisis confirma el equilibrio entre detección y fiabilidad. El valor del **Área Bajo la Curva de Precisión-Recall (PR-AUC)** es de **0.8540**. Este valor valida que el modelo mantiene una **buena Precisión** ($0.83$) incluso cuando se maximiza la detección de fraude (alto Recall de $0.74$).
+3.  Este análisis confirma el equilibrio entre detección y fiabilidad. El valor del **Área Bajo la Curva de Precisión-Recall (PR-AUC)** es de **0.8540**. Este valor valida que el modelo mantiene una **buena Precisión** (0.83) incluso cuando se maximiza la detección de fraude (alto Recall de 0.74).
 
 4.  La implementación de **SHAP** provee transparencia al modelo. El **Summary Plot** y el **Bar Plot** confirman que las características **V14**, **V4**, y **V3** son las más influyentes. El **Dependence Plot** demuestra, por ejemplo, que valores **muy negativos** en la característica **V14** tienen el **mayor impacto positivo** en la predicción de fraude, justificando las clasificaciones del modelo.
 
@@ -51,6 +51,6 @@ Se revisó la **curva de calibración** inicial. Dado que no estaba cerca de la 
 
 El objetivo de crear un modelo de Machine Learning para detectar transacciones fraudulentas se cumplió con éxito utilizando un enfoque avanzado de **XGBoost optimizado por Optuna** y calibrado.
 
-El modelo logró un equilibrio sólido entre detectar la mayor cantidad de fraudes posibles (alto **Recall** de **0.74**) y evitar la generación excesiva de alertas falsas (alta **Precisión** de **0.83**). La evidencia de la **Matriz de Confusión** y la métrica **PR-AUC** ($0.8540$) confirma que la solución es robusta contra el severo desbalance de clases, proporcionando una herramienta valiosa para la mitigación de riesgos en transacciones bancarias.
+El modelo logró un equilibrio sólido entre detectar la mayor cantidad de fraudes posibles (alto **Recall** de **0.74**) y evitar la generación excesiva de alertas falsas (alta **Precisión** de **0.83**). La evidencia de la **Matriz de Confusión** y la métrica **PR-AUC** (0.8540) confirma que la solución es robusta contra el severo desbalance de clases, proporcionando una herramienta valiosa para la mitigación de riesgos en transacciones bancarias.
 
 Es fundamental destacar que la Exactitud (Accuracy) no es una métrica válida para evaluar este proyecto, ya que el dataset está severamente desbalanceado. Un alto valor de Accuracy sería engañoso y no reflejaría la verdadera capacidad del modelo para detectar fraudes. Por esta razón, la evaluación se centró en las métricas de rendimiento para la clase minoritaria.
